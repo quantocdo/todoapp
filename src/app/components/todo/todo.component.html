@@ -1,0 +1,56 @@
+<div class="todo">
+
+  <h1 class="heading">To do app</h1>
+
+  <div class="main">
+
+    <div class="head">
+      <p class="btn-select" (click)="selectAll();" *ngIf="isShowBtn">
+        <i class="fas fa-angle-down"></i>
+      </p>
+      <p class="btn-select" (click)="unSelectAll();" *ngIf="!isShowBtn">
+        <i class="fas fa-angle-down"></i>
+      </p>
+      <input class="input-field bg-white-opacity" placeholder="What needs to be done?" [(ngModel)]="inputTask" (keyup.enter)="addTask();">
+    </div>
+
+    <div class="list">
+      <div *ngFor="let item of arrTasks | search: inputTask">
+        <div class="item bg-white-opacity" *ngIf="filterTasks(item.completed)">
+          <p (click)="isCompletedSignal(item.id)" [ngStyle]="{color: item.completed ? '#40c057' : 'rgba(0,0,0,0.3)'}">
+            <i class="far fa-check-circle"></i>
+          </p>
+          <p [class]="item.completed ? 'item-completed' : ''">
+            {{item.task}}
+          </p>
+          <button class="btn btn-edit" (click)="editTask(item.id)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-close" (click)="removeTask(item.id);">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="taskbar bg-white-opacity" [hidden]="isTaskbar()">
+      <div class="item-left">
+        {{ isActiveItemLeft() }} {{ isCorrectText() }} left
+      </div>
+      <select class="filter" [(ngModel)]="filterStatus">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="finished">Completed</option>
+      </select>
+      <a class="clear" href="javascript:void(0);" (click)="clearCompleted();" *ngIf="clearBtnText();">Clear completed</a>
+    </div>
+
+  </div>
+
+  <div class="info">
+    <p>Simulated based on TodoMVC</p>
+    <p>Customized: Quan Toc Do</p>
+    <p>A part of <span class="highlight">Angular 4</span> Self-studying Exercises</p>
+  </div>
+
+</div>
